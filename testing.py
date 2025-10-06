@@ -134,7 +134,7 @@ def get_method_details_from_pycatia_db(method_name, pycatia_db_path):
             cursor.execute(
                 """
                 SELECT * FROM pycatia_methods
-                WHERE method_name LIKE ? OR raw_signature LIKE ?
+                WHERE method_name LIKE ? OR full_method_name LIKE ?
                 LIMIT 1
             """,
                 (pattern, pattern),
@@ -238,12 +238,16 @@ def populate_reference_database(output_db_path, code_methods, pycatia_db_path):
                         method_name,
                         source_type,
                         method_details.get("id") if method_details else None,
-                        method_details.get("raw_signature") if method_details else None,
-                        method_details.get("class_name") if method_details else None,
-                        method_details.get("module_path") if method_details else None,
-                        method_details.get("docstring") if method_details else None,
                         (
-                            method_details.get("parameter_names")
+                            method_details.get("full_method_name")
+                            if method_details
+                            else None
+                        ),
+                        None,  # class_name not available in new schema
+                        None,  # module_name not available in new schema
+                        None,  # description not available in new schema
+                        (
+                            method_details.get("method_parameters")
                             if method_details
                             else None
                         ),
@@ -252,14 +256,8 @@ def populate_reference_database(output_db_path, code_methods, pycatia_db_path):
                             if method_details
                             else None
                         ),
-                        (
-                            method_details.get("docstring") if method_details else None
-                        ),  # Using docstring as example_usage
-                        (
-                            method_details.get("source_file")
-                            if method_details
-                            else None
-                        ),  # Using source_file as documentation_url
+                        None,  # example_usage not available in new schema
+                        None,  # documentation_url not available in new schema
                     ),
                 )
 
