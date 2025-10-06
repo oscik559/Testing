@@ -1,4 +1,4 @@
-echo "# UAV Flying Wing Design Automation
+# UAV Flying Wing Design Automation
 
 A comprehensive CATIA V5 automation system for creating parametric UAV flying wing designs using PyCATIA.
 
@@ -30,32 +30,41 @@ This project provides a complete **29-step automated workflow** for designing UA
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - **CATIA V5** (R20 or higher)
 - **Python 3.8+**
 - **PyCATIA library**
 
 ### Installation
+
 \`\`\`bash
 pip install pycatia
 pip install pandas openpyxl  # For Excel export
 \`\`\`
 
 ### Basic Usage
+
 \`\`\`python
 from uav_wing_design import create_flying_wing
 
 # Create complete UAV wing
+
 wing_part = create_flying_wing()
 if wing_part:
     print(\"Successfully created flying wing UAV model\")
 \`\`\`
 
 ### Individual Step Testing
+
 \`\`\`python
+
 # Test individual steps
+
 catia_objects = step_01_initialize_catia_app()
 hybrid_objects = step_02_setup_hybrid_shape_environment(catia_objects['part'])
+
 # ... execute specific steps as needed
+
 \`\`\`
 
 ## 🔧 Design Steps Overview
@@ -98,17 +107,22 @@ The system uses 12 core parametric values:
 ## 🛠️ Development
 
 ### Architecture Benefits
+
 - **Modular Design**: Each step is independently testable
 - **Clean Interfaces**: Clear parameter passing between functions
 - **Error Recovery**: Graceful CATIA API failure handling
 - **Maintainable**: Easy to modify individual operations
 
 ### Testing Individual Steps
+
 \`\`\`bash
+
 # Test CATIA connection
+
 python -c \"from uav_wing_design import step_01_initialize_catia_app; print('✅ CATIA OK')\"
 
 # Run full workflow
+
 python uav_wing_design.py
 \`\`\`
 

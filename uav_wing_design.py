@@ -1,22 +1,19 @@
 # Required imports for CATIA automation and mathematical operations
 from pycatia import catia
 
+
 def step_01_initialize_catia_app():
     """Step 1: Initialize CATIA environment and enter GSD workbench"""
     # PDF Step 1: Initialize CATIA application and create new part document
     caa = catia()
+    caa.start_workbench("GenerativeShapeDesignWorkbench")
     documents = caa.documents
     documents.add("Part")
     document = caa.active_document
     part = document.part
-    caa.start_workbench("GenerativeShapeDesignWorkbench")
 
-    return {
-        'caa': caa,
-        'documents': documents,
-        'document': document,
-        'part': part
-    }
+    return {"caa": caa, "documents": documents, "document": document, "part": part}
+
 
 def step_02_setup_hybrid_shape_environment(part):
     """Step 2: Set up hybrid shape design environment"""
@@ -28,11 +25,12 @@ def step_02_setup_hybrid_shape_environment(part):
     geom_set.name = "Geometrical Set.1"
 
     return {
-        'hybrid_shape_factory': hybrid_shape_factory,
-        'shape_factory': shape_factory,
-        'hybrid_bodies': hybrid_bodies,
-        'geom_set': geom_set
+        "hybrid_shape_factory": hybrid_shape_factory,
+        "shape_factory": shape_factory,
+        "hybrid_bodies": hybrid_bodies,
+        "geom_set": geom_set,
     }
+
 
 def step_03_define_reference_planes(part):
     """Step 3: Define reference planes"""
@@ -43,11 +41,12 @@ def step_03_define_reference_planes(part):
     zx_plane = planes.plane_zx
 
     return {
-        'planes': planes,
-        'xy_plane': xy_plane,
-        'yz_plane': yz_plane,
-        'zx_plane': zx_plane
+        "planes": planes,
+        "xy_plane": xy_plane,
+        "yz_plane": yz_plane,
+        "zx_plane": zx_plane,
     }
+
 
 def step_04_define_reference_axes(hybrid_shape_factory, geom_set, part):
     """Step 4: Define reference coordinate axes"""
@@ -64,11 +63,8 @@ def step_04_define_reference_axes(hybrid_shape_factory, geom_set, part):
 
     part.update()
 
-    return {
-        'x_axis': x_axis,
-        'y_axis': y_axis,
-        'z_axis': z_axis
-    }
+    return {"x_axis": x_axis, "y_axis": y_axis, "z_axis": z_axis}
+
 
 def step_05_create_construction_plane(hybrid_shape_factory, zx_plane, geom_set, part):
     """Step 5: Create construction plane for wing geometry"""
@@ -80,6 +76,7 @@ def step_05_create_construction_plane(hybrid_shape_factory, zx_plane, geom_set, 
 
     return plane1
 
+
 def step_06_create_root_point(hybrid_shape_factory, plane1, geom_set, part):
     """Step 6: Create root chord reference point"""
     # PDF Step 6: Create a Point - Create a point in the middle of Plane.1
@@ -90,7 +87,10 @@ def step_06_create_root_point(hybrid_shape_factory, plane1, geom_set, part):
 
     return point1
 
-def step_07_create_tip_point(hybrid_shape_factory, plane1, point1, yz_plane, geom_set, part):
+
+def step_07_create_tip_point(
+    hybrid_shape_factory, plane1, point1, yz_plane, geom_set, part
+):
     """Step 7: Create tip chord reference point"""
     # PDF Step 7: Create a Point - Create a point with 300mm YZ offset from Point.1
     yz_direction = hybrid_shape_factory.add_new_direction(yz_plane)
@@ -103,7 +103,10 @@ def step_07_create_tip_point(hybrid_shape_factory, plane1, point1, yz_plane, geo
 
     return point2
 
-def step_08_create_root_spline(hybrid_shape_factory, point1, point2, z_axis, geom_set, part):
+
+def step_08_create_root_spline(
+    hybrid_shape_factory, point1, point2, z_axis, geom_set, part
+):
     """Step 8: Create wing root airfoil spline"""
     # PDF Step 8: Create a Spline through Point.1 and Point.2 with Z axis tangency
     ref_point1 = part.create_reference_from_object(point1)
@@ -121,7 +124,10 @@ def step_08_create_root_spline(hybrid_shape_factory, point1, point2, z_axis, geo
 
     return spline1
 
-def step_09_create_tip_spline(hybrid_shape_factory, point1, point2, z_axis, geom_set, part):
+
+def step_09_create_tip_spline(
+    hybrid_shape_factory, point1, point2, z_axis, geom_set, part
+):
     """Step 9: Create wing tip airfoil spline"""
     # PDF Step 9: Create Spline number two (reverse direction with 0.3 tension)
     ref_point1 = part.create_reference_from_object(point1)
@@ -137,6 +143,7 @@ def step_09_create_tip_spline(hybrid_shape_factory, point1, point2, z_axis, geom
 
     return spline2
 
+
 def step_10_create_reference_line(hybrid_shape_factory, point1, plane1, geom_set, part):
     """Step 10: Create reference line for sweep direction"""
     # PDF Step 10: Create a Line - Point-Direction type using Plane.1 as Direction
@@ -150,7 +157,10 @@ def step_10_create_reference_line(hybrid_shape_factory, point1, plane1, geom_set
 
     return line1
 
-def step_11_create_angled_line(hybrid_shape_factory, line1, xy_plane, point1, geom_set, part):
+
+def step_11_create_angled_line(
+    hybrid_shape_factory, line1, xy_plane, point1, geom_set, part
+):
     """Step 11: Create angled line for wing sweep control"""
     # PDF Step 11: Create one more Line - Angle/Normal to curve type
     ref_xy_plane = part.create_reference_from_object(xy_plane)
@@ -164,6 +174,7 @@ def step_11_create_angled_line(hybrid_shape_factory, line1, xy_plane, point1, ge
 
     return line2
 
+
 def step_12_extrude_root_spline(hybrid_shape_factory, spline1, line2, geom_set, part):
     """Step 12: Extrude root spline to create surface scaffold"""
     # PDF Step 12: Extrude Surface (1/2) - Choose Spline.1 as Profile and Line.2 as Direction
@@ -174,6 +185,7 @@ def step_12_extrude_root_spline(hybrid_shape_factory, spline1, line2, geom_set, 
     part.update()
 
     return extrude1
+
 
 def step_13_extrude_tip_spline(hybrid_shape_factory, spline2, line2, geom_set, part):
     """Step 13: Extrude tip spline to create surface scaffold"""
@@ -186,6 +198,7 @@ def step_13_extrude_tip_spline(hybrid_shape_factory, spline2, line2, geom_set, p
 
     return extrude2
 
+
 def step_14_create_additional_point3(hybrid_shape_factory, geom_set, part):
     """Step 14: Create additional spanwise reference points"""
     # PDF Step 14: Create a Point - Create a new point as following
@@ -195,6 +208,7 @@ def step_14_create_additional_point3(hybrid_shape_factory, geom_set, part):
     part.update()
 
     return point3
+
 
 def step_15_create_additional_point4(hybrid_shape_factory, geom_set, part):
     """Step 15: Create additional spanwise reference points"""
@@ -206,7 +220,10 @@ def step_15_create_additional_point4(hybrid_shape_factory, geom_set, part):
 
     return point4
 
-def step_16_create_additional_spline3(hybrid_shape_factory, point3, point4, z_axis, geom_set, part):
+
+def step_16_create_additional_spline3(
+    hybrid_shape_factory, point3, point4, z_axis, geom_set, part
+):
     """Step 16: Create additional spanwise splines for wing structure"""
     # PDF Step 16: Create another Profile (Two more Splines) - Introduce new profile
     ref_point3 = part.create_reference_from_object(point3)
@@ -220,7 +237,10 @@ def step_16_create_additional_spline3(hybrid_shape_factory, point3, point4, z_ax
 
     return spline3
 
-def step_17_create_additional_spline4(hybrid_shape_factory, point3, point4, z_axis, geom_set, part):
+
+def step_17_create_additional_spline4(
+    hybrid_shape_factory, point3, point4, z_axis, geom_set, part
+):
     """Step 17: Create additional spanwise splines for wing structure"""
     # Create additional spanwise splines for wing structure
     ref_point3 = part.create_reference_from_object(point3)
@@ -235,7 +255,10 @@ def step_17_create_additional_spline4(hybrid_shape_factory, point3, point4, z_ax
 
     return spline4
 
-def step_18_create_guide_spline5(hybrid_shape_factory, point3, point1, y_axis, line2, geom_set, part):
+
+def step_18_create_guide_spline5(
+    hybrid_shape_factory, point3, point1, y_axis, line2, geom_set, part
+):
     """Step 18: Create guide splines for loft surface control"""
     # Create a Spline connecting the two profiles with tangent directions
     ref_point3 = part.create_reference_from_object(point3)
@@ -249,7 +272,10 @@ def step_18_create_guide_spline5(hybrid_shape_factory, point3, point1, y_axis, l
 
     return spline5
 
-def step_19_create_guide_spline6(hybrid_shape_factory, point4, point2, y_axis, geom_set, part):
+
+def step_19_create_guide_spline6(
+    hybrid_shape_factory, point4, point2, y_axis, geom_set, part
+):
     """Step 19: Create guide splines for loft surface control"""
     # Create a Spline connecting the two profiles with tangent directions
     ref_point4 = part.create_reference_from_object(point4)
@@ -264,33 +290,44 @@ def step_19_create_guide_spline6(hybrid_shape_factory, point4, point2, y_axis, g
 
     return spline6
 
+
 def step_20_create_extrude3(hybrid_shape_factory, spline3, zx_plane, geom_set, part):
     """Step 20: Create support extrusions for loft scaffolding"""
     # Create additional guide splines - Create an Extrude Surface
     dir_zx_plane = hybrid_shape_factory.add_new_direction(zx_plane)
-    extrude3 = hybrid_shape_factory.add_new_extrude(
-        spline3, -30.0, 0.0, dir_zx_plane
-    )
+    extrude3 = hybrid_shape_factory.add_new_extrude(spline3, -30.0, 0.0, dir_zx_plane)
     extrude3.name = "Extrude.3"
     geom_set.append_hybrid_shape(extrude3)
     part.update()
 
     return extrude3
 
+
 def step_21_create_extrude4(hybrid_shape_factory, spline4, zx_plane, geom_set, part):
     """Step 21: Create support extrusions for loft scaffolding"""
     # Create additional guide splines - Create an Extrude Surface
     dir_zx_plane = hybrid_shape_factory.add_new_direction(zx_plane)
-    extrude4 = hybrid_shape_factory.add_new_extrude(
-        spline4, -30.0, 0.0, dir_zx_plane
-    )
+    extrude4 = hybrid_shape_factory.add_new_extrude(spline4, -30.0, 0.0, dir_zx_plane)
     extrude4.name = "Extrude.4"
     geom_set.append_hybrid_shape(extrude4)
     part.update()
 
     return extrude4
 
-def step_22_create_upper_loft_surface(hybrid_shape_factory, spline2, spline4, spline5, spline6, point2, point4, extrude2, extrude3, geom_set, part):
+
+def step_22_create_upper_loft_surface(
+    hybrid_shape_factory,
+    spline2,
+    spline4,
+    spline5,
+    spline6,
+    point2,
+    point4,
+    extrude2,
+    extrude3,
+    geom_set,
+    part,
+):
     """Step 22: Create upper wing loft surface"""
     # PDF Step 22: Create a Multi-section Surface - Choose sections and guides with tangent surfaces
     ref_spline2 = part.create_reference_from_object(spline2)
@@ -322,7 +359,20 @@ def step_22_create_upper_loft_surface(hybrid_shape_factory, spline2, spline4, sp
 
     return loft_surface1
 
-def step_23_create_lower_loft_surface(hybrid_shape_factory, spline1, spline3, spline5, spline6, point1, point3, extrude1, extrude4, geom_set, part):
+
+def step_23_create_lower_loft_surface(
+    hybrid_shape_factory,
+    spline1,
+    spline3,
+    spline5,
+    spline6,
+    point1,
+    point3,
+    extrude1,
+    extrude4,
+    geom_set,
+    part,
+):
     """Step 23: Create wing surface using multi-section loft"""
     # PDF Step 23: Create a Multi-section Surface - Choose sections and guides with tangent surfaces
     ref_spline1 = part.create_reference_from_object(spline1)
@@ -354,7 +404,10 @@ def step_23_create_lower_loft_surface(hybrid_shape_factory, spline1, spline3, sp
 
     return loft_surface2
 
-def step_24_join_extrude_surfaces(hybrid_shape_factory, extrude1, extrude2, geom_set, part):
+
+def step_24_join_extrude_surfaces(
+    hybrid_shape_factory, extrude1, extrude2, geom_set, part
+):
     """Step 24: Join extrusion surfaces"""
     # PDF Step 24: Create a Join - Join Extrude.1 and Extrude.2 surfaces
     ref_extrude1 = part.create_reference_from_object(extrude1)
@@ -374,7 +427,10 @@ def step_24_join_extrude_surfaces(hybrid_shape_factory, extrude1, extrude2, geom
 
     return join_operation1
 
-def step_25_join_loft_surfaces(hybrid_shape_factory, loft_surface1, loft_surface2, geom_set, part):
+
+def step_25_join_loft_surfaces(
+    hybrid_shape_factory, loft_surface1, loft_surface2, geom_set, part
+):
     """Step 25: Join loft surfaces"""
     # PDF Step 25: Create a Join - Select loft surfaces of the model
     ref_loft1 = part.create_reference_from_object(loft_surface1)
@@ -394,7 +450,10 @@ def step_25_join_loft_surfaces(hybrid_shape_factory, loft_surface1, loft_surface
 
     return join_operation2
 
-def step_26_join_all_surfaces(hybrid_shape_factory, join_operation1, join_operation2, geom_set, part):
+
+def step_26_join_all_surfaces(
+    hybrid_shape_factory, join_operation1, join_operation2, geom_set, part
+):
     """Step 26: Join the loft surfaces together"""
     # PDF Step 26: Create final unified wing surface - Unify all wing surfaces
     ref_join1 = part.create_reference_from_object(join_operation1)
@@ -414,6 +473,7 @@ def step_26_join_all_surfaces(hybrid_shape_factory, join_operation1, join_operat
 
     return final_join
 
+
 def step_27_add_thickness(shape_factory, final_join, part):
     """Step 27: Add thickness to create solid wing structure"""
     # PDF Step 27: Create a ThickSurface - Choose Join.3 and give thickness of 10mm
@@ -425,6 +485,7 @@ def step_27_add_thickness(shape_factory, final_join, part):
     part.update()
 
     return thick_surface1
+
 
 def step_28_mirror_wing(hybrid_shape_factory, thick_surface1, zx_plane, geom_set, part):
     """Step 28: Mirror wing to create full wingspan"""
@@ -438,6 +499,7 @@ def step_28_mirror_wing(hybrid_shape_factory, thick_surface1, zx_plane, geom_set
     part.update()
 
     return symmetry1
+
 
 def step_29_control_element_visibility(document, geom_set):
     """Step 29: Control element visibility for cleaner design view"""
@@ -481,6 +543,7 @@ def step_29_control_element_visibility(document, geom_set):
             print(f"Could not set visibility for {element_name}: {vis_error}")
             selection.clear()
 
+
 def create_flying_wing():
     """
     Main orchestrator function that calls all individual step functions.
@@ -489,53 +552,71 @@ def create_flying_wing():
     try:
         # Step 1: Initialize CATIA
         catia_objects = step_01_initialize_catia_app()
-        part = catia_objects['part']
-        document = catia_objects['document']
+        part = catia_objects["part"]
+        document = catia_objects["document"]
 
         # Step 2: Setup hybrid environment
         hybrid_objects = step_02_setup_hybrid_shape_environment(part)
-        hybrid_shape_factory = hybrid_objects['hybrid_shape_factory']
-        shape_factory = hybrid_objects['shape_factory']
-        geom_set = hybrid_objects['geom_set']
+        hybrid_shape_factory = hybrid_objects["hybrid_shape_factory"]
+        shape_factory = hybrid_objects["shape_factory"]
+        geom_set = hybrid_objects["geom_set"]
 
         # Step 3: Define reference planes
         planes_objects = step_03_define_reference_planes(part)
-        xy_plane = planes_objects['xy_plane']
-        yz_plane = planes_objects['yz_plane']
-        zx_plane = planes_objects['zx_plane']
+        xy_plane = planes_objects["xy_plane"]
+        yz_plane = planes_objects["yz_plane"]
+        zx_plane = planes_objects["zx_plane"]
 
         # Step 4: Define reference axes
-        axes_objects = step_04_define_reference_axes(hybrid_shape_factory, geom_set, part)
-        x_axis = axes_objects['x_axis']
-        y_axis = axes_objects['y_axis']
-        z_axis = axes_objects['z_axis']
+        axes_objects = step_04_define_reference_axes(
+            hybrid_shape_factory, geom_set, part
+        )
+        x_axis = axes_objects["x_axis"]
+        y_axis = axes_objects["y_axis"]
+        z_axis = axes_objects["z_axis"]
 
         # Step 5: Create construction plane
-        plane1 = step_05_create_construction_plane(hybrid_shape_factory, zx_plane, geom_set, part)
+        plane1 = step_05_create_construction_plane(
+            hybrid_shape_factory, zx_plane, geom_set, part
+        )
 
         # Step 6: Create root point
         point1 = step_06_create_root_point(hybrid_shape_factory, plane1, geom_set, part)
 
         # Step 7: Create tip point
-        point2 = step_07_create_tip_point(hybrid_shape_factory, plane1, point1, yz_plane, geom_set, part)
+        point2 = step_07_create_tip_point(
+            hybrid_shape_factory, plane1, point1, yz_plane, geom_set, part
+        )
 
         # Step 8: Create root spline
-        spline1 = step_08_create_root_spline(hybrid_shape_factory, point1, point2, z_axis, geom_set, part)
+        spline1 = step_08_create_root_spline(
+            hybrid_shape_factory, point1, point2, z_axis, geom_set, part
+        )
 
         # Step 9: Create tip spline
-        spline2 = step_09_create_tip_spline(hybrid_shape_factory, point1, point2, z_axis, geom_set, part)
+        spline2 = step_09_create_tip_spline(
+            hybrid_shape_factory, point1, point2, z_axis, geom_set, part
+        )
 
         # Step 10: Create reference line
-        line1 = step_10_create_reference_line(hybrid_shape_factory, point1, plane1, geom_set, part)
+        line1 = step_10_create_reference_line(
+            hybrid_shape_factory, point1, plane1, geom_set, part
+        )
 
         # Step 11: Create angled line
-        line2 = step_11_create_angled_line(hybrid_shape_factory, line1, xy_plane, point1, geom_set, part)
+        line2 = step_11_create_angled_line(
+            hybrid_shape_factory, line1, xy_plane, point1, geom_set, part
+        )
 
         # Step 12: Extrude root spline
-        extrude1 = step_12_extrude_root_spline(hybrid_shape_factory, spline1, line2, geom_set, part)
+        extrude1 = step_12_extrude_root_spline(
+            hybrid_shape_factory, spline1, line2, geom_set, part
+        )
 
         # Step 13: Extrude tip spline
-        extrude2 = step_13_extrude_tip_spline(hybrid_shape_factory, spline2, line2, geom_set, part)
+        extrude2 = step_13_extrude_tip_spline(
+            hybrid_shape_factory, spline2, line2, geom_set, part
+        )
 
         # Step 14: Create additional point 3
         point3 = step_14_create_additional_point3(hybrid_shape_factory, geom_set, part)
@@ -544,43 +625,87 @@ def create_flying_wing():
         point4 = step_15_create_additional_point4(hybrid_shape_factory, geom_set, part)
 
         # Step 16: Create additional spline 3
-        spline3 = step_16_create_additional_spline3(hybrid_shape_factory, point3, point4, z_axis, geom_set, part)
+        spline3 = step_16_create_additional_spline3(
+            hybrid_shape_factory, point3, point4, z_axis, geom_set, part
+        )
 
         # Step 17: Create additional spline 4
-        spline4 = step_17_create_additional_spline4(hybrid_shape_factory, point3, point4, z_axis, geom_set, part)
+        spline4 = step_17_create_additional_spline4(
+            hybrid_shape_factory, point3, point4, z_axis, geom_set, part
+        )
 
         # Step 18: Create guide spline 5
-        spline5 = step_18_create_guide_spline5(hybrid_shape_factory, point3, point1, y_axis, line2, geom_set, part)
+        spline5 = step_18_create_guide_spline5(
+            hybrid_shape_factory, point3, point1, y_axis, line2, geom_set, part
+        )
 
         # Step 19: Create guide spline 6
-        spline6 = step_19_create_guide_spline6(hybrid_shape_factory, point4, point2, y_axis, geom_set, part)
+        spline6 = step_19_create_guide_spline6(
+            hybrid_shape_factory, point4, point2, y_axis, geom_set, part
+        )
 
         # Step 20: Create extrude 3
-        extrude3 = step_20_create_extrude3(hybrid_shape_factory, spline3, zx_plane, geom_set, part)
+        extrude3 = step_20_create_extrude3(
+            hybrid_shape_factory, spline3, zx_plane, geom_set, part
+        )
 
         # Step 21: Create extrude 4
-        extrude4 = step_21_create_extrude4(hybrid_shape_factory, spline4, zx_plane, geom_set, part)
+        extrude4 = step_21_create_extrude4(
+            hybrid_shape_factory, spline4, zx_plane, geom_set, part
+        )
 
         # Step 22: Create upper loft surface
-        loft_surface1 = step_22_create_upper_loft_surface(hybrid_shape_factory, spline2, spline4, spline5, spline6, point2, point4, extrude2, extrude3, geom_set, part)
+        loft_surface1 = step_22_create_upper_loft_surface(
+            hybrid_shape_factory,
+            spline2,
+            spline4,
+            spline5,
+            spline6,
+            point2,
+            point4,
+            extrude2,
+            extrude3,
+            geom_set,
+            part,
+        )
 
         # Step 23: Create lower loft surface
-        loft_surface2 = step_23_create_lower_loft_surface(hybrid_shape_factory, spline1, spline3, spline5, spline6, point1, point3, extrude1, extrude4, geom_set, part)
+        loft_surface2 = step_23_create_lower_loft_surface(
+            hybrid_shape_factory,
+            spline1,
+            spline3,
+            spline5,
+            spline6,
+            point1,
+            point3,
+            extrude1,
+            extrude4,
+            geom_set,
+            part,
+        )
 
         # Step 24: Join extrude surfaces
-        join_operation1 = step_24_join_extrude_surfaces(hybrid_shape_factory, extrude1, extrude2, geom_set, part)
+        join_operation1 = step_24_join_extrude_surfaces(
+            hybrid_shape_factory, extrude1, extrude2, geom_set, part
+        )
 
         # Step 25: Join loft surfaces
-        join_operation2 = step_25_join_loft_surfaces(hybrid_shape_factory, loft_surface1, loft_surface2, geom_set, part)
+        join_operation2 = step_25_join_loft_surfaces(
+            hybrid_shape_factory, loft_surface1, loft_surface2, geom_set, part
+        )
 
         # Step 26: Join all surfaces
-        final_join = step_26_join_all_surfaces(hybrid_shape_factory, join_operation1, join_operation2, geom_set, part)
+        final_join = step_26_join_all_surfaces(
+            hybrid_shape_factory, join_operation1, join_operation2, geom_set, part
+        )
 
         # Step 27: Add thickness
         thick_surface1 = step_27_add_thickness(shape_factory, final_join, part)
 
         # Step 28: Mirror wing
-        symmetry1 = step_28_mirror_wing(hybrid_shape_factory, thick_surface1, zx_plane, geom_set, part)
+        symmetry1 = step_28_mirror_wing(
+            hybrid_shape_factory, thick_surface1, zx_plane, geom_set, part
+        )
 
         # Step 29: Control element visibility
         step_29_control_element_visibility(document, geom_set)
@@ -589,9 +714,11 @@ def create_flying_wing():
 
     except Exception as e:
         import traceback
+
         print(f"Error in create_flying_wing: {e}")
         traceback.print_exc()
         return None
+
 
 # Main execution block
 if __name__ == "__main__":
