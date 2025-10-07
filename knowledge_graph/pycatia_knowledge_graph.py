@@ -7,7 +7,7 @@ knowledge graph with zero hardcoded rules - all relationships are dynamically
 discovered from the actual installed PyCATIA library.
 
 Usage:
-    from pycatia_knowledge_graph import PyCATIAIntelligence
+    from knowledge_graph.pycatia_knowledge_graph import PyCATIAIntelligence
     
     intel = PyCATIAIntelligence()
     method_sig = intel.resolve_method("spline1", "add_point_with_constraint_from_curve")
@@ -25,7 +25,7 @@ class PyCATIAIntelligence:
     Intelligent PyCATIA method resolution using live library knowledge graph
     """
     
-    def __init__(self, graph_file: str = 'pycatia_knowledge_graph.json'):
+    def __init__(self, graph_file: str = 'knowledge_graph/pycatia_knowledge_graph.json'):
         self.graph_file = graph_file
         
         # Load the live knowledge graph data

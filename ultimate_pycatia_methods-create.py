@@ -15,7 +15,7 @@ from typing import Dict, List, Optional, Set, Tuple
 from collections import defaultdict
 
 # Import our knowledge graph intelligence
-from pycatia_knowledge_graph import PyCATIAIntelligence
+from knowledge_graph.pycatia_knowledge_graph import PyCATIAIntelligence
 
 
 class ASTMethodCallVisitor(ast.NodeVisitor):

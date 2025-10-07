@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 import json
 
 
-def gexf_to_json(gexf_file: str = 'pycatia_hierarchical_mapping.gexf'):
+def gexf_to_json(gexf_file: str = 'knowledge_graph/pycatia_mapping.gexf'):
     """Convert GEXF to JSON for web visualization"""
     
     try:
@@ -292,7 +292,7 @@ def create_d3_visualization():
 </html>
 """
     
-    with open('pycatia_graph_d3.html', 'w') as f:
+    with open('pycatia_graph_d3.html', 'w', encoding='utf-8') as f:
         f.write(html_content)
     
     print("✅ Created: pycatia_graph_d3.html")
