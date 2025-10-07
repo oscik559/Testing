@@ -25,7 +25,7 @@ class PyCATIAIntelligence:
     Intelligent PyCATIA method resolution using live library knowledge graph
     """
     
-    def __init__(self, graph_file: str = 'knowledge_graph/pycatia_knowledge_graph.json'):
+    def __init__(self, graph_file: str = 'pycatia_knowledge_graph.json'):
         self.graph_file = graph_file
         
         # Load the live knowledge graph data
