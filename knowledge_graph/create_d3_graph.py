@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 """
-Enhanced    # Sort classes by method count - USE ALL CLASSES
-    class_method_counts.sort(key=lambda x: x[1], reverse=True)
-    selected_classes = class_method_counts  # ALL classes, sorted by importance
-    
-    print(f"📋 Processing ALL {len(selected_classes)} classes")TIA Knowledge Graph Visualizer
+Simple PyCATIA Class-Only Knowledge Graph Visualizer
 
-Creates an interactive D3 visualization that properly handles the class-method relationship structure.
+Creates a clean D3 visualization showing only classes and their inheritance relationships.
+No method clutter - just clean class hierarchy visualization.
 """
 
 import json
@@ -16,96 +13,146 @@ from collections import defaultdict
 
 
 def create_interactive_d3_from_json():
-    """Create interactive D3 visualization directly from JSON (better approach)"""
+    """Create clean class-only interactive D3 visualization with inheritance relationships"""
     
-    print("🧠 Creating Interactive D3 from Knowledge Graph JSON")
+    print("🧠 Creating Class-Only Interactive D3 Visualization")
     print("=" * 50)
     
+    # Handle path properly - look for JSON file relative to script location
+    script_dir = Path(__file__).parent
+    json_file = script_dir / "pycatia_knowledge_graph.json"
+    
+    if not json_file.exists():
+        # Try alternative paths
+        alt_paths = [
+            Path("pycatia_knowledge_graph.json"),  # Current directory
+            Path("knowledge_graph/pycatia_knowledge_graph.json")  # From root
+        ]
+        
+        for alt_path in alt_paths:
+            if alt_path.exists():
+                json_file = alt_path
+                break
+        else:
+            print(f"❌ JSON file not found. Tried:")
+            print(f"  - {script_dir / 'pycatia_knowledge_graph.json'}")
+            for alt_path in alt_paths:
+                print(f"  - {alt_path}")
+            return None
+    
+    print(f"📁 Loading: {json_file}")
+    
     # Load JSON data
-    with open("pycatia_knowledge_graph.json", "r") as f:
+    with open(json_file, "r") as f:
         kg_data = json.load(f)
     
     classes = kg_data.get("classes", {})
     
     print(f"📊 Processing {len(classes)} classes...")
     
-    # Create nodes with proper data
+    # Create nodes - CLASSES ONLY (simple and clean)
     nodes = []
     node_map = {}
     
-    # Sort classes by method count to get most important ones
+    # Sort classes by method count and importance
     class_method_counts = []
     for class_name, class_info in classes.items():
         method_count = len(class_info.get("methods", {}))
         class_method_counts.append((class_name, method_count, class_info))
     
-    # Sort by method count - USE ALL CLASSES
+    # Use all classes for complete inheritance visualization
     class_method_counts.sort(key=lambda x: x[1], reverse=True)
-    selected_classes = class_method_counts  # ALL classes, sorted by importance
+    selected_classes = class_method_counts  # ALL classes
     
-    print(f"📋 Selected top {len(selected_classes)} classes")
+    print(f"📋 Processing {len(selected_classes)} classes (class-only visualization)")
     
-    # Create nodes
+    # Create CLASS nodes only
     for i, (class_name, method_count, class_info) in enumerate(selected_classes):
         domain = class_info.get('domain', 'unknown')
+        
         nodes.append({
             'id': str(i),
             'name': class_name,
             'label': class_name,
-            'group': hash(domain) % 12,
+            'type': 'class',
+            'group': hash(domain) % 15,
             'method_count': method_count,
             'domain': domain,
             'is_factory': class_info.get('is_factory', False),
             'is_collection': class_info.get('is_collection', False),
             'full_name': class_info.get('full_name', class_name),
-            'docstring': (class_info.get('docstring', '')[:200] + '...') if class_info.get('docstring', '') else 'No documentation'
+            'docstring': (class_info.get('docstring', '')[:200] + '...') if class_info.get('docstring', '') else 'No documentation',
+            'parent_classes': class_info.get('parent_classes', []),
+            'mro': class_info.get('mro', [])
         })
         node_map[class_name] = i
     
-    # Create edges based on inheritance and domain relationships
+    print(f"📋 Created {len(nodes)} class nodes (clean design)")
+
+    # Create edges - INHERITANCE ONLY (class-method edges added on click)
     edges = []
     
-    # Inheritance edges
-    for i, (class_name, _, class_info) in enumerate(selected_classes):
-        parent_classes = class_info.get('parent_classes', [])
-        for parent in parent_classes:
-            if parent in node_map:
-                edges.append({
-                    'source': str(i),
-                    'target': str(node_map[parent]),
-                    'type': 'inheritance',
-                    'strength': 1.5
-                })
+    # INHERITANCE edges (class to class) - FIXED to show proper connections
+    inheritance_count = 0
+    missing_parents = set()
     
-    # Domain clustering edges (connect classes in same domain)
-    domain_groups = defaultdict(list)
-    for i, (class_name, _, class_info) in enumerate(selected_classes):
-        domain = class_info.get('domain', 'unknown')
-        domain_groups[domain].append(i)
-    
-    # Create loose connections within domains
-    for domain, class_indices in domain_groups.items():
-        if len(class_indices) > 1:
-            # Connect each class to a few others in same domain
-            for i, class_idx in enumerate(class_indices[:5]):  # Limit connections
-                for j in range(1, min(3, len(class_indices) - i)):
-                    target_idx = class_indices[(i + j) % len(class_indices)]
+    for node in nodes:
+        if node['type'] == 'class':
+            class_name = node['name']
+            parent_classes = node.get('parent_classes', [])
+            
+            for parent in parent_classes:
+                if parent in node_map:
+                    # Found parent in our dataset
                     edges.append({
-                        'source': str(class_idx),
-                        'target': str(target_idx),
-                        'type': 'domain',
-                        'strength': 0.5
+                        'source': node['id'],           # Child class
+                        'target': str(node_map[parent]), # Parent class
+                        'type': 'inheritance',
+                        'strength': 1.5
                     })
+                    inheritance_count += 1
+                else:
+                    missing_parents.add(parent)
     
-    graph_data = {'nodes': nodes, 'links': edges}
+    print(f"📋 Created {inheritance_count} inheritance relationships")
+    if missing_parents:
+        print(f"⚠️  Missing parent classes: {len(missing_parents)} (e.g., {list(missing_parents)[:5]})")
     
-    print(f"✅ Graph created: {len(nodes)} nodes, {len(edges)} edges")
+    # DOMAIN clustering edges (minimal, for loose grouping)
+    domain_groups = defaultdict(list)
+    for node in nodes:
+        if node['type'] == 'class':
+            domain = node.get('domain', 'unknown')
+            domain_groups[domain].append(node['id'])
+    
+    # Very minimal domain connections
+    domain_edges = 0
+    for domain, class_ids in domain_groups.items():
+        if len(class_ids) > 1 and len(class_ids) < 20:  # Only small domains
+            # Connect just first to second
+            edges.append({
+                'source': class_ids[0],
+                'target': class_ids[1],
+                'type': 'domain',
+                'strength': 0.2
+            })
+            domain_edges += 1
+    
+    print(f"📋 Added {domain_edges} domain clustering edges")
+
+    # Prepare data for JavaScript (simple class-only data)
+    graph_data = {
+        'nodes': nodes, 
+        'links': edges
+    }
+    
+    print(f"✅ Graph created: {len(nodes)} class nodes, {len(edges)} relationships")
     
     # Create enhanced HTML
     html_content = f'''<!DOCTYPE html>
 <html>
 <head>
-    <title>🧠 PyCATIA Knowledge Graph - Interactive Explorer</title>
+    <title>🧠 PyCATIA Class Inheritance Graph</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
         * {{ margin: 0; padding: 0; box-sizing: border-box; }}
@@ -168,7 +215,6 @@ def create_interactive_d3_from_json():
         
         .node {{
             cursor: pointer;
-            stroke: #fff;
             stroke-width: 1.5px;
             transition: all 0.3s ease;
         }}
@@ -177,31 +223,38 @@ def create_interactive_d3_from_json():
             stroke-width: 3px;
         }}
         
+        .node.class {{
+            stroke: #2c3e50;
+            stroke-width: 3px;
+        }}
+        
         .node.factory {{
-            stroke: #ffd700;
-            stroke-width: 2.5px;
+            stroke: #f39c12;
+            stroke-width: 4px;
+            filter: drop-shadow(0 0 8px #f39c12);
         }}
         
         .node.collection {{
-            stroke: #ff6b6b;
-            stroke-width: 2.5px;
+            stroke: #e74c3c;
+            stroke-width: 4px;
+            filter: drop-shadow(0 0 8px #e74c3c);
         }}
         
         .link {{
-            stroke-opacity: 0.4;
             fill: none;
         }}
         
         .link.inheritance {{
-            stroke: #4ecdc4;
+            stroke: #2c3e50;
             stroke-width: 2px;
             stroke-opacity: 0.8;
+            stroke-dasharray: 4,4;
         }}
         
         .link.domain {{
-            stroke: #95a5a6;
-            stroke-width: 1px;
-            stroke-opacity: 0.3;
+            stroke: #7f8c8d;
+            stroke-width: 1.5px;
+            stroke-opacity: 0.4;
         }}
         
         .tooltip {{
@@ -213,10 +266,48 @@ def create_interactive_d3_from_json():
             border: 1px solid rgba(255,255,255,0.2);
             pointer-events: none;
             font-size: 13px;
-            max-width: 350px;
+            max-width: 400px;
+            max-height: 500px;
+            overflow-y: auto;
             box-shadow: 0 8px 32px rgba(0,0,0,0.4);
             backdrop-filter: blur(10px);
             z-index: 1000;
+        }}
+        
+        .methods-panel {{
+            position: absolute;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 12px;
+            max-width: 450px;
+            max-height: 600px;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
+            z-index: 1001;
+            display: none;
+        }}
+        
+        .method-item {{
+            margin: 3px 0;
+            padding: 2px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+        }}
+        
+        .close-btn {{
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            font-size: 16px;
+            cursor: pointer;
         }}
         
         .tooltip .class-name {{
@@ -260,8 +351,8 @@ def create_interactive_d3_from_json():
 </head>
 <body>
     <div class="header">
-        <div class="title">🧠 PyCATIA Knowledge Graph Explorer</div>
-                .stats">{len(nodes)} classes • {len(edges)} relationships • Complete PyCATIA Library</div>
+        <div class="title">🧠 PyCATIA Class Inheritance Graph</div>
+        <div class="stats">{len(nodes)} classes • {len(edges)} inheritance links • Class-only view</div>
         <div class="controls">
             <input type="text" class="search-box" placeholder="Search classes..." id="searchBox">
             <button onclick="resetView()">🔄 Reset</button>
@@ -274,8 +365,28 @@ def create_interactive_d3_from_json():
     
     <svg id="graph"></svg>
     
+    <div id="methodsPanel" class="methods-panel">
+        <button class="close-btn" onclick="closeMethods()">×</button>
+        <div id="methodsContent"></div>
+    </div>
+    
+    <div class="legend" style="position: absolute; top: 100px; left: 20px; background: rgba(0,0,0,0.9); padding: 15px; border-radius: 10px; font-size: 12px; max-width: 250px; border: 1px solid rgba(255,255,255,0.2);">
+        <div style="color: #4ecdc4; font-weight: bold; margin-bottom: 10px;">🗺️ Class Inheritance Graph</div>
+        <div style="margin: 5px 0;"><span style="color: #e74c3c;">●</span> Classes (size = method count)</div>
+        <div style="margin: 5px 0;"><span style="color: #f39c12;">●</span> Factory Classes (golden outline)</div>
+        <div style="margin: 5px 0;"><span style="color: #e74c3c;">●</span> Collection Classes (red outline)</div>
+        <hr style="border: 0.5px solid rgba(255,255,255,0.3); margin: 8px 0;">
+        <div style="margin: 5px 0;"><span style="color: #2c3e50;">- -</span> Inheritance (child → parent)</div>
+        <div style="margin: 5px 0;"><span style="color: #7f8c8d;">—</span> Domain clustering</div>
+        <hr style="border: 0.5px solid rgba(255,255,255,0.3); margin: 8px 0;">
+        <div style="margin: 5px 0; font-size: 11px; opacity: 0.8;">💡 Hover for class details</div>
+        <div style="margin: 5px 0; font-size: 11px; opacity: 0.8;">🔍 Search by name/domain/parent</div>
+        <div style="margin: 5px 0; font-size: 11px; opacity: 0.8;">🖱️ Click class to see methods</div>
+    </div>
+    
     <script>
         const data = {json.dumps(graph_data, indent=2)};
+        const classData = {json.dumps({name: {'methods': dict(list(class_info.get('methods', {}).items())[:])} for name, class_info in classes.items()}, indent=2)};
         
         // Set up SVG
         const svg = d3.select("#graph");
@@ -286,8 +397,16 @@ def create_interactive_d3_from_json():
         
         const g = svg.append("g");
         
-        // Color scale
-        const color = d3.scaleOrdinal(d3.schemeSet3);
+        // Methods panel
+        const methodsPanel = d3.select("#methodsPanel");
+        const methodsContent = d3.select("#methodsContent");
+        
+        // Enhanced color palette for classes
+        const classColors = [
+            '#e74c3c', '#9b59b6', '#3498db', '#1abc9c', '#f1c40f',
+            '#e67e22', '#95a5a6', '#34495e', '#ff6b9d', '#c44569',
+            '#f8b500', '#6a89cc', '#82ccdd', '#60a3bc', '#786fa6'
+        ];
         
         // Zoom behavior
         const zoom = d3.zoom()
@@ -301,16 +420,23 @@ def create_interactive_d3_from_json():
             .attr("class", "tooltip")
             .style("opacity", 0);
         
-        // Force simulation
+        // Force simulation - improved centering and domain clustering
         const simulation = d3.forceSimulation(data.nodes)
             .force("link", d3.forceLink(data.links)
                 .id(d => d.id)
-                .distance(d => d.type === 'inheritance' ? 80 : 120)
-                .strength(d => d.strength || 0.5))
-            .force("charge", d3.forceManyBody().strength(-400))
+                .distance(d => {{
+                    if (d.type === 'inheritance') return 120;     // Inheritance relationships - closer
+                    return 180;                                    // Domain connections - closer to center
+                }})
+                .strength(d => d.strength || 0.8))
+            .force("charge", d3.forceManyBody().strength(-500))   // Less repulsion
             .force("center", d3.forceCenter(width / 2, height / 2))
-            .force("collision", d3.forceCollide().radius(d => Math.max(8, Math.sqrt(d.method_count) * 2)));
-        
+            .force("x", d3.forceX(width / 2).strength(0.1))      // Pull towards horizontal center
+            .force("y", d3.forceY(height / 2).strength(0.1))     // Pull towards vertical center
+            .force("collision", d3.forceCollide().radius(d => {{
+                return Math.max(12, Math.sqrt(d.method_count || 1) * 2.5);
+            }}));
+
         // Create links
         const link = g.append("g")
             .selectAll(".link")
@@ -318,19 +444,26 @@ def create_interactive_d3_from_json():
             .enter().append("line")
             .attr("class", d => `link ${{d.type}}`);
         
-        // Create nodes
+        // Create nodes - classes only
         const node = g.append("g")
             .selectAll(".node")
             .data(data.nodes)
             .enter().append("circle")
             .attr("class", d => {{
-                let classes = "node";
+                let classes = `node ${{d.type}}`;
                 if (d.is_factory) classes += " factory";
                 if (d.is_collection) classes += " collection";
                 return classes;
             }})
-            .attr("r", d => Math.max(6, Math.min(20, Math.sqrt(d.method_count) * 1.5)))
-            .attr("fill", d => color(d.group))
+            .attr("r", d => {{
+                return Math.max(8, Math.min(35, Math.sqrt(d.method_count || 1) * 2.5));
+            }})
+            .attr("fill", d => {{
+                return classColors[d.group % classColors.length];
+            }})
+            .on("click", function(event, d) {{
+                showMethods(d, event);
+            }})
             .on("mouseover", function(event, d) {{
                 // Highlight connections
                 const connectedNodes = new Set([d.id]);
@@ -345,16 +478,17 @@ def create_interactive_d3_from_json():
                 }});
                 
                 node.style("opacity", n => connectedNodes.has(n.id) ? 1 : 0.2);
-                link.style("opacity", l => connectedLinks.has(l) ? 0.8 : 0.1);
+                link.style("opacity", l => connectedLinks.has(l) ? 1 : 0.1);
                 
                 // Show tooltip
                 tooltip.transition().duration(200).style("opacity", 1);
                 tooltip.html(`
-                    <div class="class-name">${{d.name}}</div>
+                    <div class="class-name">🏗️ ${{d.name}}</div>
+                    <div class="info-row"><span class="label">Type:</span> Class</div>
                     <div class="info-row"><span class="label">Methods:</span> ${{d.method_count}}</div>
+                    <div class="info-row"><span class="label">Parents:</span> ${{d.parent_classes?.join(', ') || 'None'}}</div>
                     <div class="info-row"><span class="label">Domain:</span> ${{d.domain}}</div>
-                    <div class="info-row"><span class="label">Type:</span> ${{d.is_factory ? 'Factory' : (d.is_collection ? 'Collection' : 'Class')}}</div>
-                    <div class="info-row"><span class="label">Full Name:</span> ${{d.full_name}}</div>
+                    <div class="info-row"><span class="label">Category:</span> ${{d.is_factory ? 'Factory' : (d.is_collection ? 'Collection' : 'Standard')}}</div>
                     <div class="info-row" style="margin-top: 8px; font-size: 11px; opacity: 0.8;">
                         ${{d.docstring}}
                     </div>
@@ -364,7 +498,10 @@ def create_interactive_d3_from_json():
             }})
             .on("mouseout", function() {{
                 node.style("opacity", 1);
-                link.style("opacity", d => d.type === 'inheritance' ? 0.8 : 0.4);
+                link.style("opacity", d => {{
+                    if (d.type === 'inheritance') return 0.8;
+                    return 0.4;
+                }});
                 tooltip.transition().duration(300).style("opacity", 0);
             }})
             .call(d3.drag()
@@ -372,15 +509,16 @@ def create_interactive_d3_from_json():
                 .on("drag", dragged)
                 .on("end", dragended));
         
-        // Labels (initially hidden)
+        // Labels for major classes
         const labels = g.append("g")
             .selectAll(".node-label")
-            .data(data.nodes.filter(d => d.method_count > 100))
+            .data(data.nodes.filter(d => d.method_count > 50))
             .enter().append("text")
             .attr("class", "node-label")
             .text(d => d.name.length > 15 ? d.name.substring(0, 15) + "..." : d.name)
-            .style("opacity", 0);
-        
+            .style("opacity", 0)
+            .style("font-size", "11px");
+
         // Update positions
         simulation.on("tick", () => {{
             link
@@ -422,8 +560,61 @@ def create_interactive_d3_from_json():
         function resetView() {{
             simulation.alpha(1).restart();
             node.style("opacity", 1);
-            link.style("opacity", d => d.type === 'inheritance' ? 0.8 : 0.4);
+            link.style("opacity", d => {{
+                if (d.type === 'inheritance') return 0.8;
+                return 0.4;
+            }});
         }}
+        
+        function showMethods(classNode, event) {{
+            const className = classNode.name;
+            const classInfo = classData[className];
+            
+            if (!classInfo || !classInfo.methods) {{
+                methodsContent.html(`
+                    <h3 style="color: #4ecdc4; margin-bottom: 15px;">⚙️ ${{className}}</h3>
+                    <p style="opacity: 0.8;">No method information available.</p>
+                `);
+            }} else {{
+                const methods = Object.entries(classInfo.methods);
+                const methodsList = methods.map(([name, signature]) => `
+                    <div class="method-item">
+                        <strong style="color: #3498db;">${{name}}</strong><br>
+                        <span style="opacity: 0.7; font-size: 10px;">${{signature}}</span>
+                    </div>
+                `).join('');
+                
+                methodsContent.html(`
+                    <h3 style="color: #4ecdc4; margin-bottom: 15px;">⚙️ ${{className}} Methods</h3>
+                    <div style="margin-bottom: 10px; font-size: 11px; opacity: 0.8;">
+                        ${{methods.length}} methods • Domain: ${{classNode.domain}}
+                    </div>
+                    ${{methodsList}}
+                `);
+            }}
+            
+            // Position panel near click but keep it visible
+            const panelWidth = 450;
+            const panelHeight = 600;
+            const x = Math.min(event.pageX + 20, window.innerWidth - panelWidth - 20);
+            const y = Math.min(event.pageY - 50, window.innerHeight - panelHeight - 20);
+            
+            methodsPanel
+                .style("left", x + "px")
+                .style("top", y + "px")
+                .style("display", "block");
+        }}
+        
+        function closeMethods() {{
+            methodsPanel.style("display", "none");
+        }}
+        
+        // Close methods panel when clicking elsewhere
+        document.addEventListener('click', function(event) {{
+            if (!event.target.closest('.methods-panel') && !event.target.closest('circle')) {{
+                closeMethods();
+            }}
+        }});
         
         function zoomToFit() {{
             const bounds = g.node().getBBox();
@@ -460,14 +651,17 @@ def create_interactive_d3_from_json():
             labels.style("opacity", labelsVisible ? 1 : 0);
         }}
         
-        // Search functionality
+        // Search functionality - classes only
         document.getElementById('searchBox').addEventListener('input', function(e) {{
             const searchTerm = e.target.value.toLowerCase();
             if (searchTerm) {{
-                node.style("opacity", d => 
-                    d.name.toLowerCase().includes(searchTerm) || 
-                    d.domain.toLowerCase().includes(searchTerm) ? 1 : 0.1
-                );
+                node.style("opacity", d => {{
+                    const nameMatch = d.name.toLowerCase().includes(searchTerm);
+                    const domainMatch = d.domain.toLowerCase().includes(searchTerm);
+                    const parentMatch = d.parent_classes && d.parent_classes.some(p => p.toLowerCase().includes(searchTerm));
+                    
+                    return nameMatch || domainMatch || parentMatch ? 1 : 0.1;
+                }});
                 link.style("opacity", 0.05);
             }} else {{
                 resetView();
@@ -480,29 +674,30 @@ def create_interactive_d3_from_json():
 </body>
 </html>'''
     
-    # Save the interactive HTML
-    output_path = Path("pycatia_graph_d3.html")
+    # Save the interactive HTML in the same directory as the script
+    output_path = script_dir / "pycatia_graph_d3.html"
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(html_content)
     
-    print(f"✅ Interactive explorer created: {output_path}")
+    print(f"✅ Interactive class graph created: {output_path}")
     return output_path
 
 
 def main():
-    """Create the interactive visualization"""
+    """Create the class-only visualization"""
     html_file = create_interactive_d3_from_json()
     
-    print(f"\n🎉 Interactive PyCATIA Knowledge Graph Explorer Created!")
+    print(f"\n🎉 PyCATIA Class Inheritance Graph Created!")
     print(f"📁 File: {html_file}")
     print(f"\n🚀 Features:")
-    print(f"   • 🔍 Search classes by name or domain")
-    print(f"   • 🏭 Highlight factory classes (create objects)")
-    print(f"   • 📦 Highlight collection classes (manage groups)")
-    print(f"   • 🔗 Show inheritance relationships")
-    print(f"   • 📊 Node size = number of methods")
-    print(f"   • 🎨 Colors = different domains")
-    print(f"   • 💡 Hover for detailed tooltips")
+    print(f"   • 🏗️ CLASS-ONLY: Clean visualization without method clutter")
+    print(f"   • 🔗 INHERITANCE: Red dashed lines show parent-child relationships")
+    print(f"   • 📊 NODE SIZE: Larger circles = more methods in class")
+    print(f"   • 🎨 COLORS: 15 distinct colors for different domains")
+    print(f"   • 🔍 SEARCH: Find classes by name, domain, or parent class")
+    print(f"   • 🏭 FACTORIES: Golden outline (create objects)")
+    print(f"   • 📦 COLLECTIONS: Red outline (manage groups)")
+    print(f"   • 💡 TOOLTIPS: Hover for class details and inheritance info")
     print(f"\n💻 Open {html_file} in your web browser to explore!")
 
 
