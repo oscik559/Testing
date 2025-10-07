@@ -26,7 +26,12 @@ class PyCATIAIntelligence:
     """
     
     def __init__(self, graph_file: str = 'pycatia_knowledge_graph.json'):
-        self.graph_file = graph_file
+        # If graph_file is just a filename, look for it in the same directory as this script
+        if not os.path.dirname(graph_file):
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            self.graph_file = os.path.join(script_dir, graph_file)
+        else:
+            self.graph_file = graph_file
         
         # Load the live knowledge graph data
         if not os.path.exists(self.graph_file):
@@ -36,7 +41,19 @@ class PyCATIAIntelligence:
             self.graph_data = json.load(f)
         
         self.classes = self.graph_data['classes']
-        self.methods = self.graph_data['methods']
+        
+        # Extract methods from the nested structure
+        self.methods = {}
+        for class_name, class_info in self.classes.items():
+            if 'methods' in class_info:
+                for method_name, method_signature in class_info['methods'].items():
+                    method_key = f"{class_name}.{method_name}"
+                    self.methods[method_key] = {
+                        'method_name': method_name,
+                        'class_name': class_name,
+                        'full_signature': method_signature,
+                        'method_type': 'instance'  # Default to instance method
+                    }
         
         # Build reverse indexes for fast lookup
         self._build_indexes()

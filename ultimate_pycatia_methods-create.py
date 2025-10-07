@@ -93,7 +93,7 @@ class UltimatePyCATIAExtractor:
         self.code_file_path = code_file_path
         
         # Initialize knowledge graph intelligence
-        self.intelligence = PyCATIAIntelligence()
+        self.intelligence = PyCATIAIntelligence('knowledge_graph/pycatia_knowledge_graph.json')
         
         # Statistics
         self.stats = {
@@ -208,7 +208,12 @@ class UltimatePyCATIAExtractor:
         
         # Remove existing database
         if os.path.exists(output_db_path):
-            os.remove(output_db_path)
+            try:
+                os.remove(output_db_path)
+            except PermissionError:
+                print(f"⚠️  Warning: Could not remove existing database file. It may be in use.")
+                print(f"    Please close any database viewers and try again, or delete manually: {output_db_path}")
+                return 0.0
         
         # Connect to both databases
         main_conn = sqlite3.connect(self.main_db_path)
@@ -380,7 +385,8 @@ def main():
         print(f"❌ Error: {code_file} not found!")
         return
     
-    if not os.path.exists('pycatia_knowledge_graph.json'):
+    knowledge_graph_path = 'knowledge_graph/pycatia_knowledge_graph.json'
+    if not os.path.exists(knowledge_graph_path):
         print("❌ Error: Knowledge graph not found! Run direct_pycatia_inspector.py first!")
         return
     
