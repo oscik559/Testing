@@ -4,7 +4,7 @@
 
 import os
 import sqlite3
-from design_uav_wing import (
+from design_uav_wing_db_schema import (
     get_uav_flying_wing_template,
     get_uav_flying_wing_steps,
     get_uav_flying_wing_parameters,
