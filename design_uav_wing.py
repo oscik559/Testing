@@ -27,7 +27,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"workbench": "GenerativeShapeDesignWorkbench"}',
             "",
             "Initialize CAD environment",
-            'catia(), documents.add("Part")',
         ),
         (
             template_id,
@@ -39,7 +38,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"geom_set_name": "Geometrical Set.1"}',
             "1",
             "Configure hybrid shape factory and geometrical set",
-            "part.hybrid_shape_factory, hybrid_bodies.add()",
         ),
         (
             template_id,
@@ -51,7 +49,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"planes": ["xy_plane", "yz_plane", "zx_plane"]}',
             "1",
             "Access origin coordinate system planes",
-            "part.origin_elements",
         ),
         (
             template_id,
@@ -63,7 +60,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"x_axis": [1,0,0], "y_axis": [0,1,0], "z_axis": [0,0,1]}',
             "2,3",
             "Create directional references for construction geometry",
-            "hybrid_shape_factory.add_new_direction_by_coord()",
         ),
         (
             template_id,
@@ -75,7 +71,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"reference_plane": "zx_plane", "offset": 500.0, "reverse": false}',
             "3",
             "Base construction plane for wing geometry",
-            "hybrid_shape_factory.add_new_plane_offset()",
         ),
         (
             template_id,
@@ -87,7 +82,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"plane": "Plane.1", "h_coord": -250.0, "v_coord": 0.0}',
             "5",
             "Root chord reference point",
-            "hybrid_shape_factory.add_new_point_on_plane()",
         ),
         (
             template_id,
@@ -99,7 +93,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"reference_plane": "Plane.1", "reference_point": "Point.1", "direction": "yz_plane", "offset": 300.0}',
             "5,6",
             "Tip chord reference point",
-            "hybrid_shape_factory.add_new_point_on_surface_with_reference()",
         ),
         (
             template_id,
@@ -111,7 +104,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"points": ["Point.1", "Point.2"], "tangent_point": "Point.1", "tangent_dir": "z_axis", "tension": 0.5}',
             "6,7,4",
             "First wing profile curve for root-tip transition",
-            "hybrid_shape_factory.add_new_spline()",
         ),
         (
             template_id,
@@ -123,7 +115,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"points": ["Point.2", "Point.1"], "tangent_point": "Point.1", "tangent_dir": "z_axis", "tension": 0.3}',
             "6,7,4",
             "Second wing profile curve with opposite tangency",
-            "hybrid_shape_factory.add_new_spline()",
         ),
         (
             template_id,
@@ -135,7 +126,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"type": "Point-Direction", "point": "Point.1", "direction": "Plane.1", "start_length": 0.0, "end_length": 20.0}',
             "6,5",
             "Reference axis for construction and extrusion operations",
-            "hybrid_shape_factory.add_new_line_pt_dir()",
         ),
         (
             template_id,
@@ -147,7 +137,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"type": "Angle/Normal", "reference_curve": "Line.1", "support_plane": "xy_plane", "point": "Point.1", "angle_deg": -30.0, "start_length": 0.0, "end_length": 20.0}',
             "10,3,6",
             "Sweep direction for wing surface extrusions",
-            "hybrid_shape_factory.add_new_line_angle()",
         ),
         (
             template_id,
@@ -159,7 +148,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"profile": "Spline.1", "direction": "Line.2", "start_length": 500.0, "end_length": 0.0}',
             "8,11",
             "First extruded wing surface section",
-            "hybrid_shape_factory.add_new_extrude()",
         ),
         (
             template_id,
@@ -171,7 +159,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"profile": "Spline.2", "direction": "Line.2", "start_length": 500.0, "end_length": 0.0}',
             "9,11",
             "Second extruded wing surface section",
-            "hybrid_shape_factory.add_new_extrude()",
         ),
         (
             template_id,
@@ -183,7 +170,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"coords": [-300, 0.0, 0.0]}',
             "",
             "Additional control points for wing extension",
-            "hybrid_shape_factory.add_new_point_coord()",
         ),
         (
             template_id,
@@ -195,7 +181,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"coords": [1000, 0.0, 0.0]}',
             "",
             "Additional control points for wing extension",
-            "hybrid_shape_factory.add_new_point_coord()",
         ),
         (
             template_id,
@@ -207,7 +192,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"points": ["Point.3", "Point.4"], "tangent_point": "Point.3", "tangent_dir": "z_axis", "tension": 0.5}',
             "14,15,4",
             "Third wing profile curve",
-            "hybrid_shape_factory.add_new_spline()",
         ),
         (
             template_id,
@@ -219,7 +203,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"points": ["Point.4", "Point.3"], "tangent_point": "Point.3", "tangent_dir": "z_axis", "tension": 0.3}',
             "14,15,4",
             "Fourth wing profile curve",
-            "hybrid_shape_factory.add_new_spline()",
         ),
         (
             template_id,
@@ -231,7 +214,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"points": ["Point.3", "Point.1"], "tangent_Point3_dir": "y_axis", "tangent_Point1_dir": "Line.2", "tension": 1}',
             "14,6,4,11",
             "First connecting spline for loft guidance",
-            "hybrid_shape_factory.add_new_spline()",
         ),
         (
             template_id,
@@ -243,7 +225,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"points": ["Point.4", "Point.2"], "tangent_Point4_dir": "y_axis", "tangent_Point2_dir": "y_axis", "tension": 1}',
             "15,7,4",
             "Second connecting spline for loft guidance",
-            "hybrid_shape_factory.add_new_spline()",
         ),
         (
             template_id,
@@ -255,7 +236,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"profile": "Spline.3", "direction": "zx_plane", "start_length": -30.0, "end_length": 0.0}',
             "16,3",
             "Guide surface for loft operations",
-            "hybrid_shape_factory.add_new_extrude()",
         ),
         (
             template_id,
@@ -267,7 +247,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"profile": "Spline.4", "direction": "zx_plane", "start_length": -30.0, "end_length": 0.0}',
             "17,3",
             "Additional guide surface for loft operations",
-            "hybrid_shape_factory.add_new_extrude()",
         ),
         (
             template_id,
@@ -279,7 +258,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"sections": ["Spline.4", "Spline.2"], "guides": ["Spline.5", "Spline.6"], "closing_points": ["Point.4", "Point.2"], "closing_faces": ["Extrude.3", "Extrude.2"]}',
             "17,9,18,19,20,13",
             "Upper wing loft surface with smooth transitions",
-            "hybrid_shape_factory.add_new_loft()",
         ),
         (
             template_id,
@@ -291,7 +269,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"sections": ["Spline.3", "Spline.1"], "guides": ["Spline.5", "Spline.6"], "closing_points": ["Point.3", "Point.1"], "closing_faces": ["Extrude.4", "Extrude.1"]}',
             "16,8,18,19,21,12",
             "Lower wing loft surface with smooth transitions",
-            "hybrid_shape_factory.add_new_loft()",
         ),
         (
             template_id,
@@ -303,7 +280,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"surfaces": ["Extrude.1", "Extrude.2"], "check_tangency": true, "merging_distance": 0.001}',
             "12,13",
             "Join extrusion surfaces",
-            "hybrid_shape_factory.add_new_join()",
         ),
         (
             template_id,
@@ -315,7 +291,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"surfaces": ["Multi Sections Surface.1", "Multi Sections Surface.2"], "check_tangency": true, "merging_distance": 0.001}',
             "22,23",
             "Join loft surfaces",
-            "hybrid_shape_factory.add_new_join()",
         ),
         (
             template_id,
@@ -327,7 +302,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"surfaces": ["Join.1", "Join.2"], "check_tangency": false, "check_connectivity": true, "merging_distance": 0.001}',
             "24,25",
             "Create final unified wing surface",
-            "hybrid_shape_factory.add_new_join()",
         ),
         (
             template_id,
@@ -339,7 +313,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"surface": "Join.3", "offset1": 0, "offset2": 10.0, "offset3": 0.0}',
             "26",
             "Add thickness to create solid wing structure",
-            "shape_factory.add_new_volume_thick_surface()",
         ),
         (
             template_id,
@@ -351,7 +324,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"element": "ThickSurface.1", "reference_plane": "zx_plane", "volume_result": true}',
             "27,3",
             "Mirror wing to create full wingspan",
-            "hybrid_shape_factory.add_new_symmetry()",
         ),
         (
             template_id,
@@ -363,7 +335,6 @@ def get_uav_flying_wing_steps(template_id):
             '{"elements_to_hide": ["Plane.1", "Point.1", "Point.2", "Point.3", "Point.4", "Spline.1", "Spline.2", "Spline.3", "Spline.4", "Spline.5", "Spline.6", "Line.1", "Line.2", "Extrude.1", "Extrude.2", "Extrude.3", "Extrude.4", "Join.1", "Join.2", "Join.3", "Multi Sections Surface.1", "Multi Sections Surface.2"]}',
             "1-28",
             "Control element visibility for cleaner design view",
-            "selection.add(), vis_properties.set_show()",
         ),
     ]
     return uav_steps

@@ -165,9 +165,9 @@ def step_11_create_angled_line(
     # PDF Step 11: Create one more Line - Angle/Normal to curve type
     ref_xy_plane = part.create_reference_from_object(xy_plane)
     ref_line1 = part.create_reference_from_object(line1)
-    line2 = hybrid_shape_factory.add_new_line_angle(
-        ref_line1, ref_xy_plane, point1, False, 0.0, 20.0, -30.0, False
-    )
+    
+    line2 = hybrid_shape_factory.add_new_line_angle(ref_line1, ref_xy_plane, point1, False, 0.0, 20.0, -30.0, False)
+    
     line2.name = "Line.2"
     geom_set.append_hybrid_shape(line2)
     part.update()
