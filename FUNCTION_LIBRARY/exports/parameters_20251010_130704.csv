@@ -1,0 +1,174 @@
+id,function_ref,method_ref,parameter_name,parameter_type,parameter_value,parameter_position,parameter_description,parameter_type_flag,method_name,function_name
+1,1,1,com_object,Unknown,,0,Parameter for catia,1,catia,Initialize_CATIA_app
+2,1,2,iworkbench_id,str,,0,Parameter for start_workbench,1,start_workbench,Initialize_CATIA_app
+3,1,3,i_analysis_type,str,,0,Parameter for add,1,add,Initialize_CATIA_app
+4,2,4,i_analysis_type,str,,0,Parameter for add,1,add,Setup_Hybrid_Shape_Environment
+94,2,5,name_value,str,Geometrical Set.1,1,Name value for name,0,name,Setup_Hybrid_Shape_Environment
+5,4,6,i_x,float,,0,Parameter for add_new_direction_by_coord,1,add_new_direction_by_coord,Define_Reference_Axes
+8,4,6,i_x,float,,0,Parameter for add_new_direction_by_coord,1,add_new_direction_by_coord,Define_Reference_Axes
+11,4,6,i_x,float,,0,Parameter for add_new_direction_by_coord,1,add_new_direction_by_coord,Define_Reference_Axes
+6,4,6,i_y,float,,1,Parameter for add_new_direction_by_coord,1,add_new_direction_by_coord,Define_Reference_Axes
+9,4,6,i_y,float,,1,Parameter for add_new_direction_by_coord,1,add_new_direction_by_coord,Define_Reference_Axes
+12,4,6,i_y,float,,1,Parameter for add_new_direction_by_coord,1,add_new_direction_by_coord,Define_Reference_Axes
+7,4,6,i_z,float,,2,Parameter for add_new_direction_by_coord,1,add_new_direction_by_coord,Define_Reference_Axes
+10,4,6,i_z,float,,2,Parameter for add_new_direction_by_coord,1,add_new_direction_by_coord,Define_Reference_Axes
+13,4,6,i_z,float,,2,Parameter for add_new_direction_by_coord,1,add_new_direction_by_coord,Define_Reference_Axes
+95,4,7,i_x,object,,1,Parameter 1 for add_new_direction_by_coord,1,add_new_direction_by_coord,Define_Reference_Axes
+96,4,7,i_y,object,,2,Parameter 2 for add_new_direction_by_coord,1,add_new_direction_by_coord,Define_Reference_Axes
+97,4,7,i_z,object,,3,Parameter 3 for add_new_direction_by_coord,1,add_new_direction_by_coord,Define_Reference_Axes
+98,4,8,i_x,object,,1,Parameter 1 for add_new_direction_by_coord,1,add_new_direction_by_coord,Define_Reference_Axes
+99,4,8,i_y,object,,2,Parameter 2 for add_new_direction_by_coord,1,add_new_direction_by_coord,Define_Reference_Axes
+100,4,8,i_z,object,,3,Parameter 3 for add_new_direction_by_coord,1,add_new_direction_by_coord,Define_Reference_Axes
+101,4,9,name_value,str,X Axis,1,Name value for name,0,name,Define_Reference_Axes
+102,4,10,name_value,str,Y Axis,1,Name value for name,0,name,Define_Reference_Axes
+103,4,11,name_value,str,Z Axis,1,Name value for name,0,name,Define_Reference_Axes
+14,4,12,i_hybrid_shape,'HybridShape',,0,Parameter for append_hybrid_shape,1,append_hybrid_shape,Define_Reference_Axes
+15,4,12,i_hybrid_shape,'HybridShape',,0,Parameter for append_hybrid_shape,1,append_hybrid_shape,Define_Reference_Axes
+16,4,12,i_hybrid_shape,'HybridShape',,0,Parameter for append_hybrid_shape,1,append_hybrid_shape,Define_Reference_Axes
+104,4,13,i_hybrid_shape,object,,1,Parameter 1 for append_hybrid_shape,1,append_hybrid_shape,Define_Reference_Axes
+105,4,14,i_hybrid_shape,object,,1,Parameter 1 for append_hybrid_shape,1,append_hybrid_shape,Define_Reference_Axes
+17,5,16,i_plane,pycatia.in_interfaces.reference.Reference,,0,Parameter for add_new_plane_offset,1,add_new_plane_offset,Create_Construction_Plane
+18,5,16,i_offset,float,,1,Parameter for add_new_plane_offset,0,add_new_plane_offset,Create_Construction_Plane
+19,5,16,i_orientation,bool,,2,Parameter for add_new_plane_offset,1,add_new_plane_offset,Create_Construction_Plane
+106,5,17,name_value,str,Plane.1,1,Name value for name,0,name,Create_Construction_Plane
+20,5,18,i_hybrid_shape,'HybridShape',,0,Parameter for append_hybrid_shape,1,append_hybrid_shape,Create_Construction_Plane
+21,6,20,i_element,pycatia.in_interfaces.reference.Reference,,0,Parameter for add_new_direction,1,add_new_direction,Create_Reference_Line
+22,6,21,i_pt,pycatia.in_interfaces.reference.Reference,,0,Parameter for add_new_line_pt_dir,1,add_new_line_pt_dir,Create_Reference_Line
+23,6,21,i_direction,pycatia.hybrid_shape_interfaces.hybrid_shape_direction.HybridShapeDirection,,1,Parameter for add_new_line_pt_dir,1,add_new_line_pt_dir,Create_Reference_Line
+24,6,21,i_begin_offset,float,,2,Parameter for add_new_line_pt_dir,0,add_new_line_pt_dir,Create_Reference_Line
+25,6,21,i_end_offset,float,,3,Parameter for add_new_line_pt_dir,0,add_new_line_pt_dir,Create_Reference_Line
+26,6,21,i_orientation,bool,,4,Parameter for add_new_line_pt_dir,1,add_new_line_pt_dir,Create_Reference_Line
+107,6,22,name_value,str,Line.1,1,Name value for name,0,name,Create_Reference_Line
+27,6,23,i_hybrid_shape,'HybridShape',,0,Parameter for append_hybrid_shape,1,append_hybrid_shape,Create_Reference_Line
+28,7,25,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Create_Angled_Line
+29,7,25,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Create_Angled_Line
+108,7,26,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Create_Angled_Line
+30,7,27,i_curve,pycatia.in_interfaces.reference.Reference,,0,Parameter for add_new_line_angle,1,add_new_line_angle,Create_Angled_Line
+31,7,27,i_surface,pycatia.in_interfaces.reference.Reference,,1,Parameter for add_new_line_angle,1,add_new_line_angle,Create_Angled_Line
+32,7,27,i_point,pycatia.in_interfaces.reference.Reference,,2,Parameter for add_new_line_angle,1,add_new_line_angle,Create_Angled_Line
+33,7,27,i_geodesic,bool,,3,Parameter for add_new_line_angle,1,add_new_line_angle,Create_Angled_Line
+34,7,27,i_begin_offset,float,,4,Parameter for add_new_line_angle,0,add_new_line_angle,Create_Angled_Line
+35,7,27,i_end_offset,float,,5,Parameter for add_new_line_angle,0,add_new_line_angle,Create_Angled_Line
+36,7,27,i_angle,float,,6,Parameter for add_new_line_angle,0,add_new_line_angle,Create_Angled_Line
+37,7,27,i_orientation,bool,,7,Parameter for add_new_line_angle,1,add_new_line_angle,Create_Angled_Line
+109,7,28,name_value,str,Line.2,1,Name value for name,0,name,Create_Angled_Line
+38,7,29,i_hybrid_shape,'HybridShape',,0,Parameter for append_hybrid_shape,1,append_hybrid_shape,Create_Angled_Line
+39,8,31,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Create_Upper_Loft_Surface
+40,8,31,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Create_Upper_Loft_Surface
+41,8,31,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Create_Upper_Loft_Surface
+42,8,31,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Create_Upper_Loft_Surface
+43,8,31,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Create_Upper_Loft_Surface
+44,8,31,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Create_Upper_Loft_Surface
+45,8,31,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Create_Upper_Loft_Surface
+46,8,31,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Create_Upper_Loft_Surface
+110,8,32,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Create_Upper_Loft_Surface
+111,8,33,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Create_Upper_Loft_Surface
+112,8,34,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Create_Upper_Loft_Surface
+113,8,35,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Create_Upper_Loft_Surface
+114,8,36,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Create_Upper_Loft_Surface
+115,8,37,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Create_Upper_Loft_Surface
+116,8,38,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Create_Upper_Loft_Surface
+47,8,40,i_crv,pycatia.in_interfaces.reference.Reference,,0,Parameter for add_section_to_loft,1,add_section_to_loft,Create_Upper_Loft_Surface
+51,8,40,i_crv,pycatia.in_interfaces.reference.Reference,,0,Parameter for add_section_to_loft,1,add_section_to_loft,Create_Upper_Loft_Surface
+48,8,40,i_ori,int,,1,Parameter for add_section_to_loft,1,add_section_to_loft,Create_Upper_Loft_Surface
+52,8,40,i_ori,int,,1,Parameter for add_section_to_loft,1,add_section_to_loft,Create_Upper_Loft_Surface
+49,8,40,i_point,"Union[pycatia.in_interfaces.reference.Reference, pycatia.scripts.vba.VBANothing]",,2,Parameter for add_section_to_loft,1,add_section_to_loft,Create_Upper_Loft_Surface
+53,8,40,i_point,"Union[pycatia.in_interfaces.reference.Reference, pycatia.scripts.vba.VBANothing]",,2,Parameter for add_section_to_loft,1,add_section_to_loft,Create_Upper_Loft_Surface
+50,8,41,i_face,pycatia.in_interfaces.reference.Reference,,0,Parameter for set_start_face_for_closing,1,set_start_face_for_closing,Create_Upper_Loft_Surface
+117,8,42,i_crv,object,,1,Parameter 1 for add_section_to_loft,1,add_section_to_loft,Create_Upper_Loft_Surface
+118,8,42,i_ori,object,,2,Parameter 2 for add_section_to_loft,1,add_section_to_loft,Create_Upper_Loft_Surface
+119,8,42,i_point,object,,3,Parameter 3 for add_section_to_loft,1,add_section_to_loft,Create_Upper_Loft_Surface
+54,8,43,i_face,pycatia.in_interfaces.reference.Reference,,0,Parameter for set_end_face_for_closing,1,set_end_face_for_closing,Create_Upper_Loft_Surface
+55,8,44,i_section,pycatia.in_interfaces.reference.Reference,,0,Parameter for remove_section_point,1,remove_section_point,Create_Upper_Loft_Surface
+56,8,44,i_section,pycatia.in_interfaces.reference.Reference,,0,Parameter for remove_section_point,1,remove_section_point,Create_Upper_Loft_Surface
+120,8,45,i_section,object,,1,Parameter 1 for remove_section_point,1,remove_section_point,Create_Upper_Loft_Surface
+57,8,46,i_guide,pycatia.in_interfaces.reference.Reference,,0,Parameter for add_guide,1,add_guide,Create_Upper_Loft_Surface
+58,8,46,i_guide,pycatia.in_interfaces.reference.Reference,,0,Parameter for add_guide,1,add_guide,Create_Upper_Loft_Surface
+121,8,47,i_guide,object,,1,Parameter 1 for add_guide,1,add_guide,Create_Upper_Loft_Surface
+122,8,48,name_value,str,Multi-sections Surface.1,1,Name value for name,0,name,Create_Upper_Loft_Surface
+59,8,49,i_hybrid_shape,'HybridShape',,0,Parameter for append_hybrid_shape,1,append_hybrid_shape,Create_Upper_Loft_Surface
+60,9,51,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Create_Lower_Loft_Surface
+61,9,51,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Create_Lower_Loft_Surface
+62,9,51,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Create_Lower_Loft_Surface
+63,9,51,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Create_Lower_Loft_Surface
+64,9,51,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Create_Lower_Loft_Surface
+65,9,51,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Create_Lower_Loft_Surface
+66,9,51,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Create_Lower_Loft_Surface
+123,9,52,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Create_Lower_Loft_Surface
+124,9,53,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Create_Lower_Loft_Surface
+125,9,54,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Create_Lower_Loft_Surface
+126,9,55,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Create_Lower_Loft_Surface
+127,9,56,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Create_Lower_Loft_Surface
+128,9,57,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Create_Lower_Loft_Surface
+67,9,58,i_product,pycatia.product_structure_interfaces.product.Product,,0,Parameter for create_reference_from_geometry,1,create_reference_from_geometry,Create_Lower_Loft_Surface
+68,9,58,i_geometry,pycatia.in_interfaces.reference.Reference,,1,Parameter for create_reference_from_geometry,1,create_reference_from_geometry,Create_Lower_Loft_Surface
+69,9,60,i_crv,pycatia.in_interfaces.reference.Reference,,0,Parameter for add_section_to_loft,1,add_section_to_loft,Create_Lower_Loft_Surface
+73,9,60,i_crv,pycatia.in_interfaces.reference.Reference,,0,Parameter for add_section_to_loft,1,add_section_to_loft,Create_Lower_Loft_Surface
+70,9,60,i_ori,int,,1,Parameter for add_section_to_loft,1,add_section_to_loft,Create_Lower_Loft_Surface
+74,9,60,i_ori,int,,1,Parameter for add_section_to_loft,1,add_section_to_loft,Create_Lower_Loft_Surface
+71,9,60,i_point,"Union[pycatia.in_interfaces.reference.Reference, pycatia.scripts.vba.VBANothing]",,2,Parameter for add_section_to_loft,1,add_section_to_loft,Create_Lower_Loft_Surface
+75,9,60,i_point,"Union[pycatia.in_interfaces.reference.Reference, pycatia.scripts.vba.VBANothing]",,2,Parameter for add_section_to_loft,1,add_section_to_loft,Create_Lower_Loft_Surface
+72,9,61,i_face,pycatia.in_interfaces.reference.Reference,,0,Parameter for set_start_face_for_closing,1,set_start_face_for_closing,Create_Lower_Loft_Surface
+129,9,62,i_crv,object,,1,Parameter 1 for add_section_to_loft,1,add_section_to_loft,Create_Lower_Loft_Surface
+130,9,62,i_ori,object,,2,Parameter 2 for add_section_to_loft,1,add_section_to_loft,Create_Lower_Loft_Surface
+131,9,62,i_point,object,,3,Parameter 3 for add_section_to_loft,1,add_section_to_loft,Create_Lower_Loft_Surface
+76,9,63,i_face,pycatia.in_interfaces.reference.Reference,,0,Parameter for set_end_face_for_closing,1,set_end_face_for_closing,Create_Lower_Loft_Surface
+77,9,64,i_section,pycatia.in_interfaces.reference.Reference,,0,Parameter for remove_section_point,1,remove_section_point,Create_Lower_Loft_Surface
+78,9,64,i_section,pycatia.in_interfaces.reference.Reference,,0,Parameter for remove_section_point,1,remove_section_point,Create_Lower_Loft_Surface
+132,9,65,i_section,object,,1,Parameter 1 for remove_section_point,1,remove_section_point,Create_Lower_Loft_Surface
+79,9,66,i_guide,pycatia.in_interfaces.reference.Reference,,0,Parameter for add_guide,1,add_guide,Create_Lower_Loft_Surface
+80,9,66,i_guide,pycatia.in_interfaces.reference.Reference,,0,Parameter for add_guide,1,add_guide,Create_Lower_Loft_Surface
+133,9,67,i_guide,object,,1,Parameter 1 for add_guide,1,add_guide,Create_Lower_Loft_Surface
+134,9,70,name_value,str,Multi-sections Surface.2,1,Name value for name,0,name,Create_Lower_Loft_Surface
+81,9,71,i_hybrid_shape,'HybridShape',,0,Parameter for append_hybrid_shape,1,append_hybrid_shape,Create_Lower_Loft_Surface
+82,10,73,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Add_Thickness
+83,10,74,i_offset_element,pycatia.in_interfaces.reference.Reference,,0,Parameter for add_new_volume_thick_surface,0,add_new_volume_thick_surface,Add_Thickness
+84,10,74,i_isens_offset,int,,1,Parameter for add_new_volume_thick_surface,0,add_new_volume_thick_surface,Add_Thickness
+85,10,74,i_top_offset,float,,2,Parameter for add_new_volume_thick_surface,0,add_new_volume_thick_surface,Add_Thickness
+86,10,74,i_bot_offset,float,,3,Parameter for add_new_volume_thick_surface,0,add_new_volume_thick_surface,Add_Thickness
+135,10,75,name_value,str,ThickSurface.1,1,Name value for name,0,name,Add_Thickness
+87,11,77,i_object,pycatia.system_interfaces.any_object.AnyObject,,0,Parameter for create_reference_from_object,1,create_reference_from_object,Mirror_Wing
+88,11,78,i_object,pycatia.in_interfaces.reference.Reference,,0,Parameter for add_new_symmetry,1,add_new_symmetry,Mirror_Wing
+89,11,78,i_reference,pycatia.in_interfaces.reference.Reference,,1,Parameter for add_new_symmetry,1,add_new_symmetry,Mirror_Wing
+136,11,79,name_value,str,Symmetry.1,1,Name value for name,0,name,Mirror_Wing
+90,11,81,i_hybrid_shape,'HybridShape',,0,Parameter for append_hybrid_shape,1,append_hybrid_shape,Mirror_Wing
+91,12,83,id_name,str,,0,Parameter for item,0,item,Control_Element_Visibility
+92,12,84,i_analysis_type,str,,0,Parameter for add,1,add,Control_Element_Visibility
+93,12,85,i_locked,bool,,0,Parameter for set_show,1,set_show,Control_Element_Visibility
+137,13,87,i_element,object,,1,Parameter 1 for add_new_direction,1,add_new_direction,Create_Support_Extrude
+138,13,88,i_object_to_extrude,object,,1,Parameter 1 for add_new_extrude,1,add_new_extrude,Create_Support_Extrude
+139,13,88,i_offset_debut,object,,2,Parameter 2 for add_new_extrude,1,add_new_extrude,Create_Support_Extrude
+140,13,88,i_offset_fin,object,,3,Parameter 3 for add_new_extrude,1,add_new_extrude,Create_Support_Extrude
+141,13,88,i_direction,object,,4,Parameter 4 for add_new_extrude,1,add_new_extrude,Create_Support_Extrude
+142,13,89,name_value,str,Extrude.3,1,Name value for name,0,name,Create_Support_Extrude
+143,13,90,i_hybrid_shape,object,,1,Parameter 1 for append_hybrid_shape,1,append_hybrid_shape,Create_Support_Extrude
+144,14,92,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Join_Surfaces
+145,14,93,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Join_Surfaces
+146,14,94,element1,object,,1,Parameter 1 for add_new_join,1,add_new_join,Join_Surfaces
+147,14,94,element2,object,,2,Parameter 2 for add_new_join,1,add_new_join,Join_Surfaces
+148,14,95,name_value,str,Join.3,1,Name value for name,0,name,Join_Surfaces
+149,14,104,i_hybrid_shape,object,,1,Parameter 1 for append_hybrid_shape,1,append_hybrid_shape,Join_Surfaces
+150,15,106,i_element,object,,1,Parameter 1 for add_new_direction,1,add_new_direction,Extrude_Spline
+151,15,107,i_object_to_extrude,object,,1,Parameter 1 for add_new_extrude,1,add_new_extrude,Extrude_Spline
+152,15,107,i_offset_debut,object,,2,Parameter 2 for add_new_extrude,1,add_new_extrude,Extrude_Spline
+153,15,107,i_offset_fin,object,,3,Parameter 3 for add_new_extrude,1,add_new_extrude,Extrude_Spline
+154,15,107,i_direction,object,,4,Parameter 4 for add_new_extrude,1,add_new_extrude,Extrude_Spline
+155,15,108,name_value,str,Extrude.N,1,Name value for name,0,name,Extrude_Spline
+156,15,109,i_hybrid_shape,object,,1,Parameter 1 for append_hybrid_shape,1,append_hybrid_shape,Extrude_Spline
+157,16,111,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Create_Spline
+158,16,112,i_object,object,,1,Parameter 1 for create_reference_from_object,1,create_reference_from_object,Create_Spline
+159,16,116,ip_ia_point,object,,1,Parameter 1 for add_point_with_constraint_from_curve,1,add_point_with_constraint_from_curve,Create_Spline
+160,16,116,ip_ia_curve_cst,object,,2,Parameter 2 for add_point_with_constraint_from_curve,1,add_point_with_constraint_from_curve,Create_Spline
+161,16,116,i_tangency_norm,object,,3,Parameter 3 for add_point_with_constraint_from_curve,1,add_point_with_constraint_from_curve,Create_Spline
+162,16,116,i_invert_value,object,,4,Parameter 4 for add_point_with_constraint_from_curve,1,add_point_with_constraint_from_curve,Create_Spline
+163,16,116,i_crv_cst_type,object,,5,Parameter 5 for add_point_with_constraint_from_curve,1,add_point_with_constraint_from_curve,Create_Spline
+164,16,117,i_num,object,,1,Parameter 1 for add_point,1,add_point,Create_Spline
+165,16,117,i_x,object,,2,Parameter 2 for add_point,1,add_point,Create_Spline
+166,16,117,i_y,object,,3,Parameter 3 for add_point,1,add_point,Create_Spline
+167,16,118,name_value,str,Spline.N,1,Name value for name,0,name,Create_Spline
+168,16,119,i_hybrid_shape,object,,1,Parameter 1 for append_hybrid_shape,1,append_hybrid_shape,Create_Spline
+169,17,121,i_plane,object,,1,Parameter 1 for add_new_point_on_plane,1,add_new_point_on_plane,Create_Point
+170,17,121,i_x,object,,2,Parameter 2 for add_new_point_on_plane,1,add_new_point_on_plane,Create_Point
+171,17,121,i_y,object,,3,Parameter 3 for add_new_point_on_plane,1,add_new_point_on_plane,Create_Point
+172,17,122,name_value,str,Point.N,1,Name value for name,0,name,Create_Point
+173,17,123,i_hybrid_shape,object,,1,Parameter 1 for append_hybrid_shape,1,append_hybrid_shape,Create_Point
